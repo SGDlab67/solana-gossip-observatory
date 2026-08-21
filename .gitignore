@@ -1,4 +1,12 @@
+# Research data: raw dumps stay local, findings live in NOTES.md
 data/
-target/
+snapshots/
 *.parquet
+*.jsonl
+
+# Build
+target/
+
+# Secrets / OS
+.env
 .DS_Store
