@@ -3,6 +3,7 @@
 # Usage: ./snapshot.sh [RPC_URL]
 # Writes timestamped JSON snapshots under data/YYYY-MM-DD/.
 set -euo pipefail
+cd "$(dirname "$0")/.."   # repo root, wherever the script is invoked from
 RPC="${1:-https://api.mainnet-beta.solana.com}"
 DAY="$(date -u +%Y-%m-%d)"
 TS="$(date -u +%Y%m%dT%H%M%SZ)"
