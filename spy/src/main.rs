@@ -9,17 +9,17 @@
 // Minimum viable instrument: ugly is fine, it only has to not stop.
 
 use std::collections::HashSet;
+use std::io::Write;
 use std::net::{SocketAddr, ToSocketAddrs};
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use solana_gossip::cluster_info::ClusterInfo;
+use solana_gossip::contact_info::{ContactInfo, Protocol};
 use solana_gossip::gossip_service::make_node;
 use solana_keypair::Keypair;
 use solana_net_utils::{get_cluster_shred_version, SocketAddrSpace};
-use solana_signer::Signer;
 
 const ENTRYPOINTS: &[&str] = &[
     "entrypoint.mainnet-beta.solana.com:8001",
@@ -171,8 +171,8 @@ fn main() {
                 "version": format!("{}", contact.version()),
                 "gossip": contact.gossip().map(|a| a.to_string()),
                 "rpc": contact.rpc().map(|a| a.to_string()),
-                "tpu": contact.tpu().map(|a| a.to_string()),
-                "tvu": contact.tvu().map(|a| a.to_string()),
+                "tpu": contact.tpu(Protocol::UDP).map(|a| a.to_string()),
+                "tvu": contact.tvu(Protocol::UDP).map(|a| a.to_string()),
                 "validator": validator_set.contains(&pk),
             });
             let line = serde_json::to_string(&rec).expect("serialize record");

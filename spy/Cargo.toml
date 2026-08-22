@@ -5,7 +5,7 @@ edition = "2021"
 description = "Pull-only Solana gossip spy (S-NodeFinder instrument). Writes observed ContactInfo records to timestamped JSONL."
 
 [dependencies]
-solana-gossip = "=4.2.1"
+solana-gossip = { version = "=4.2.1", features = ["agave-unstable-api"] }
 solana-keypair = "3.1.2"
 solana-net-utils = "=4.2.1"
 solana-signer = "3.0.1"
