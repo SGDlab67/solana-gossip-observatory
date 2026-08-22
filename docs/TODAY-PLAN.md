@@ -94,9 +94,12 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 
 ## T10 third data point fold-in
 - Model: claude-sonnet-5, effort high
-- Task: only if data/2026-08-22/ contains a spy capture newer than 21:30 UTC:
-  fold it into the digest and note the three-window trend. If not yet
-  present, mark waiting and do nothing else.
+- Task: only if data/2026-08-22/ contains a spy capture NEWER than the
+  21:30:16 UTC capture already analyzed (i.e. a capture starting after
+  21:32 UTC): fold it into the digest and note the three-window trend.
+  The existing 213016 capture is W2, already folded into every analysis;
+  do not count it again. If no newer capture exists, mark waiting and do
+  nothing else.
 - Deliverable: updated snapshots/digests/2026-W34.md or a trend note
 - Verify: the new capture's counts appear in the note
 - Commit: analysis: fold third capture into weekly digest
