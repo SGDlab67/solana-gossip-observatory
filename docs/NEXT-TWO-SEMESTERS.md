@@ -1,39 +1,48 @@
 # Next Two Semesters (draft email to Dr. Ma)
 
-Subject: S-NodeFinder, one semester out, and the courses ahead
+Subject: S-NodeFinder: the next two semesters, plus one ethics question
 
 ---
 
 Dr. Ma,
 
-The 1-pager described what S-NodeFinder measures. This note is about what I
-will do with the coming year, and it is meant as a commitment, not a status
-update.
+The 1-pager laid out what S-NodeFinder measures. This note is the other half:
+what I intend to do with the coming year, written as a commitment rather than
+a status report.
 
-The project has a shape now. Two instruments, one clock. The RPC snapshot
-series has been running for days. The gossip spy, which listens at the wire
-without contributing to the mesh, completed its second full capture today:
-3,490 identities in two minutes, close to the 3,543 it saw in the first
-window, and the saturation curve was still climbing on the final tick. What
-that means in practice: the degree of anonymity of a Solana validator is
-becoming a number we can watch change, instead of a thing we argue about.
-The stake-weighted leak table comes next, then the decay curve.
+Where the instruments stand. rpcview has been snapshotting the public RPC
+view on a timer for days. The spy, the pull-only CRDS listener that
+contributes nothing to the mesh and runs under one fixed, identifiable
+identity per our ethics bind, completed two full captures in a single day:
+3,543 identities in the first 120 second window, 3,490 in the second. On the
+final tick of the second capture the saturation curve was still climbing,
+which tells me the bounded window undercounts and the interesting curve is
+longer than two minutes.
 
-The coursework lines up behind it. I have one semester left before I can
-register for CS 5XX. In the winter I will take one course, and two in Spring
-2027, so the reading there feeds the measurement work instead of running
-parallel to it. My research time goes to the intersection of your interests
-and mine: anonymity measurement first, then churn, client mix, and the gap
-between what RPC advertises and what the wire actually shows.
+I want to be precise about what is and is not done. The instruments work and
+those counts are observed, not extrapolated. But the degree of anonymity d
+from Diaz 2002, the number the research question is built around, is not
+computed yet. The stake-weighted leak table comes first, then the anonymity
+decay curve, then d. I would rather hand you an unfinished pipeline with
+honest numbers than a finished-sounding claim.
 
-I will be honest about the state of things. The instruments work and the
-first numbers are real, but the anonymity measure itself, the degree of
-anonymity d from Diaz 2002, is not computed yet. That is the next milestone,
-not a promise. I would rather show you a number than a claim.
+The coursework is arranged to serve this. I have one more semester at Oregon
+State before CS 5XX registration opens to me, so the plan is one course in
+the winter and two in Spring 2027, chosen so the reading feeds the
+measurement work instead of running beside it. My research time goes to the
+overlap between your interests and my Solana work, in this order: the
+anonymity measure of the network, then churn, client mix, and the gap between
+what RPC advertises and what the wire actually shows.
 
-The one thing I need from you is the judgment I cannot make alone: whether a
-sustained pull-only spy, running continuously instead of in bounded windows,
-is within the ethics we agreed on, and at what duty cycle. With that answer,
-the snapshots become a churn dataset by the time I am taking those courses.
+One question needs your judgment, not mine. A sustained pull-only spy,
+continuous rather than bounded 120 second windows, is what turns these
+snapshots into a churn dataset. Is that within the ethics we agreed on, and
+if so, at what duty cycle? The spy would stay pull-only, on its single
+identifiable identity; only the duration changes. I will not run it
+continuously before you have weighed in.
+
+Everything above should improve with time; that is the point of building
+instruments instead of one-off scrapes. This is what the project can become,
+and I am committing the year to it.
 
 Stebit
