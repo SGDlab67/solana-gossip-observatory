@@ -51,9 +51,9 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: analysis/d-anonymity/ with code plus docs/analysis/d-notes.md
 - Verify: script runs and prints d and stake-weighted variant, with caveats
 - Commit: analysis: degree of anonymity scaffold, Diaz 2002
-- Status: done (script runs on both windows, prints d and stake-weighted d
-  with caveats: W1 d=0.001688 sw=0.000000, W2 d=0.001869 sw=0.000243 under
-  default N=observed; em-dash clean)
+- Status: done (verified by Hermes 2026-08-22: reran script, W1 N=3542
+  d=0.001688 sw=0.000000, W2 N=3591 d=0.001869 sw=0.000243 under default
+  N=observed; doc table matches script output; em-dash clean; commit 694504a)
 
 ## T6 AFTER_PAPER self-test completion
 - Model: claude-sonnet-5, effort high
