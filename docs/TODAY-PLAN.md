@@ -30,7 +30,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/rpc-wire-gap-2026-08-22.md
 - Verify: delta numbers match raw file counts
 - Commit: analysis: RPC versus wire gap for 2026-08-22
-- Status: in_progress (dispatched by Hermes 2026-08-22, background)
+- Status: done (verified by Hermes 2026-08-22: recomputed W1/W2 deltas from raw JSONL, all match doc; em-dash clean; commit 30867d0)
 
 ## T4 AS and cloud concentration
 - Model: claude-sonnet-5, effort high
@@ -41,7 +41,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/as-cloud-concentration-2026-08-22.md
 - Verify: counts of unique IPs enriched, no invented mappings
 - Commit: analysis: AS and cloud concentration, 2026-08-22
-- Status: in_progress (dispatched by Hermes 2026-08-22, background)
+- Status: blocked (no GeoLite2-ASN or IP-to-ASN cache anywhere; only GeoLite2-City.mmdb in camoufox cache, no ASN field; no maxminddb/geoip2 tooling installed)
 
 ## T5 degree of anonymity d scaffold
 - Model: claude-fable-5, effort high
