@@ -12,6 +12,12 @@ observed identity into a client family: Agave, Jito, Firedancer, or Other.
 | W1 (00:27 UTC) | spy-2026-08-22-002705.jsonl | 3,543 |
 | W2 (21:30 UTC) | spy-2026-08-22-213016.jsonl | 3,592 |
 
+Counts are unique pubkeys in each JSONL, verified with an independent recount
+on 2026-08-22. Note: the W2 spy-summary file's final tick reports total_peers
+3,490, which lags the JSONL count by 102 identities. Treat the JSONL as
+authoritative for identity counts; the summary tick reflects table size at a
+tick boundary, not cumulative observed identities.
+
 Supplementary RPC snapshots used for `clientId` lookup:
 - cluster-nodes-20260822T003052Z.json (W1)
 - cluster-nodes-20260822T184443Z.json (W2)

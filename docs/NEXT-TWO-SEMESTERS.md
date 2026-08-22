@@ -14,7 +14,7 @@ Where the instruments stand. rpcview has been snapshotting the public RPC
 view on a timer for days. The spy, the pull-only CRDS listener that
 contributes nothing to the mesh and runs under one fixed, identifiable
 identity per our ethics bind, completed two full captures in a single day:
-3,543 identities in the first 120 second window, 3,490 in the second. On the
+3,543 identities in the first 120 second window, 3,592 in the second. On the
 final tick of the second capture the saturation curve was still climbing,
 which tells me the bounded window undercounts and the interesting curve is
 longer than two minutes.
