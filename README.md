@@ -63,7 +63,8 @@ later saw 3,712 nodes / 3,685 unique gossip IPs, so 120 s of passive listening
 recovered ~95% of the curated view. The 4.6% gap is the object of study, not
 noise. Full numbers in [docs/ONE-PAGER.md](docs/ONE-PAGER.md). The spy runs
 under one persistent, identifiable pubkey (see [Ethics](docs/ETHICS.md)); the
-recurring crawl that turns this into a churn series is not yet scheduled.
+recurring crawl that turns this into a churn series runs every 6 h via Hermes
+cron (watchdog every 2 h, weekly digest Mondays).
 
 **RPC view (2026-08-19T21:26:51Z, live mainnet):** 3,771 cluster nodes, 3,743
 unique gossip IPs, 290 exposing RPC, 688 current validators (8 delinquent).
