@@ -12,7 +12,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/stake-weighted-leak-2026-08-22.md
 - Verify: numbers actually computed from data/2026-08-22/, table present
 - Commit: analysis: stake-weighted identity-to-IP leak, 2026-08-22
-- Status: in_progress (dispatched by Hermes, not the loop)
+- Status: done (verified by Hermes: recomputed fraction 0.984203 exactly)
 
 ## T2 client mix census
 - Model: claude-sonnet-4-6, effort high
@@ -21,7 +21,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/client-mix-2026-08-22.md
 - Verify: histogram counts sum near 3,543 and 3,592
 - Commit: analysis: client mix census from gossip, 2026-08-22
-- Status: in_progress (dispatched by Hermes, not the loop)
+- Status: done (verified by Hermes: counts match JSONL, em-dash clean)
 
 ## T3 RPC versus wire gap, both windows
 - Model: claude-sonnet-4-6, effort high
