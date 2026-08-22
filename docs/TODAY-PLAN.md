@@ -30,7 +30,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/rpc-wire-gap-2026-08-22.md
 - Verify: delta numbers match raw file counts
 - Commit: analysis: RPC versus wire gap for 2026-08-22
-- Status: pending
+- Status: in_progress (dispatched by Hermes 2026-08-22, background)
 
 ## T4 AS and cloud concentration
 - Model: claude-sonnet-5, effort high
@@ -41,7 +41,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/analysis/as-cloud-concentration-2026-08-22.md
 - Verify: counts of unique IPs enriched, no invented mappings
 - Commit: analysis: AS and cloud concentration, 2026-08-22
-- Status: pending
+- Status: in_progress (dispatched by Hermes 2026-08-22, background)
 
 ## T5 degree of anonymity d scaffold
 - Model: claude-fable-5, effort high
