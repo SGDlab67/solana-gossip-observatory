@@ -44,7 +44,7 @@ itself a result.
 |---|---|---|
 | View | RPC (`getClusterNodes`, `getVoteAccounts`) | gossip wire (CRDS table) |
 | Source | an endpoint someone else curates | the mesh itself |
-| Status | working since 2026-08-19 | built 2026-08-20, smoke test pending |
+| Status | working since 2026-08-19 | first wire capture 2026-08-21, 3,543 ContactInfo in 120 s |
 | Cost | free, runs anywhere | must speak the current protocol |
 
 `rpcview` is the backstop series: it costs nothing and must not stop, because
@@ -53,6 +53,17 @@ instrument. `scripts/snapshot.sh` is the shell equivalent of `rpcview` kept for
 one-off captures that also grab `solana gossip` output.
 
 ## Current status
+
+**Wire view (2026-08-21 local, UTC window 2026-08-22T00:27:05Z to 00:29:05Z):**
+the gate is closed. The hand-built pull-only spy joined the mainnet mesh and
+recorded **3,543 distinct identity pubkeys with a ContactInfo in a single 120 s
+window** (CRDS table 1,540 -> 2,642 -> 3,321 -> 3,543 across four 30 s ticks;
+3,452 advertising a TVU socket at the final tick). The RPC capture two minutes
+later saw 3,712 nodes / 3,685 unique gossip IPs, so 120 s of passive listening
+recovered ~95% of the curated view. The 4.6% gap is the object of study, not
+noise. Full numbers in [docs/ONE-PAGER.md](docs/ONE-PAGER.md). The spy runs
+under one persistent, identifiable pubkey (see [Ethics](docs/ETHICS.md)); the
+recurring crawl that turns this into a churn series is not yet scheduled.
 
 **RPC view (2026-08-19T21:26:51Z, live mainnet):** 3,771 cluster nodes, 3,743
 unique gossip IPs, 290 exposing RPC, 688 current validators (8 delinquent).
@@ -65,8 +76,9 @@ publishing ContactInfo through this RPC, not as a newly discovered mapping.
 (1,057), 4.2.0-rc.1 (502), long tail back to 2.3.8 and 0.1105.40200. Counts
 churn between runs; view disagreement across observers is a finding, not noise.
 
-**Wire view:** the day-0 spy attempt established that mainnet is a 4.2.x-only
-mesh and that no shipped binary can join it (agave 4.x gossip is library-only;
+**Wire view, day-0 attempt (2026-08-20, superseded):** that first attempt
+established that mainnet is a 4.2.x-only mesh and that no shipped binary can
+join it (agave 4.x gossip is library-only;
 the 1.18 `solana-gossip` binary announces gossip port 0 and stays at Nodes: 0).
 The hand-built crate spy is therefore the only path, not a preference. Full
 trail in [NOTES.md](NOTES.md).
@@ -82,7 +94,16 @@ cd rpcview && cargo run -- snapshot --out ../snapshots/latest.json
 
 # Wire view, bounded smoke test
 cd spy && cargo run --release -- --seconds 120
+
+# Wire view, explicit identity file (default: spy/keypair.json)
+cd spy && cargo run --release -- --seconds 120 --keypair ./keypair.json
 ```
+
+The spy keeps **one persistent identity** across runs: `--keypair <path>`, or
+`spy/keypair.json` generated on first run and reused after. That pubkey is what
+[docs/ETHICS.md](docs/ETHICS.md) requires so operators can recognize and filter
+the measurement node. The keypair file is gitignored: it is a research
+identity, not code, and it must not rotate per run.
 
 Dumps land under `snapshots/` and `data/YYYY-MM-DD/` (UTC day), both
 gitignored. Treat them as research data, not as a list to republish. Enrichment

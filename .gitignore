@@ -7,6 +7,11 @@ snapshots/
 # Build
 target/
 
+# Spy identity: a persistent research identity (ETHICS.md), not code.
+# One key per machine, generated on first run, never committed.
+spy/keypair.json
+keypair.json
+
 # Secrets / OS
 .env
 .DS_Store

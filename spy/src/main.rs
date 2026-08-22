@@ -1,10 +1,15 @@
 // S-NodeFinder wire spy: pull-only, non-voting Solana gossip observer.
 //
 // Joins the mainnet gossip mesh as a spy node (ephemeral ports, dummy
-// contact info), continuously pulls CRDS data, and writes every
-// first-seen ContactInfo record to timestamped JSONL under
-// <out-dir>/<UTC-date>/spy-<UTC-time>.jsonl. A per-tick summary line
+// contact info) under one persistent identity, continuously pulls CRDS
+// data, and writes every first-seen ContactInfo record to timestamped
+// JSONL under <out-dir>/<UTC-date>/spy-<UTC-time>.jsonl. A per-tick summary line
 // (peer totals, validator count) goes to spy-summary-<UTC-time>.jsonl.
+//
+// docs/ETHICS.md requires the measurement node be identifiable so operators
+// can filter it: the spy therefore reuses ONE keypair across every run
+// (--keypair <path>, default DEFAULT_KEYPAIR, generated on first run) and
+// announces that pubkey in its ContactInfo. Never rotate it per run.
 //
 // Minimum viable instrument: ugly is fine, it only has to not stop.
 
@@ -18,13 +23,17 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use solana_gossip::contact_info::{ContactInfo, Protocol};
 use solana_gossip::gossip_service::make_node;
-use solana_keypair::Keypair;
+use solana_keypair::{read_keypair_file, write_keypair_file, Keypair};
 use solana_net_utils::{get_cluster_shred_version, SocketAddrSpace};
+use solana_signer::Signer;
 
 const ENTRYPOINTS: &[&str] = &[
     "entrypoint.mainnet-beta.solana.com:8001",
     "entrypoint2.mainnet-beta.solana.com:8001",
 ];
+// Anchored to the crate dir, not the CWD: the identity must be the same file
+// no matter where the binary is launched from (cron, shell, watchdog).
+const DEFAULT_KEYPAIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/keypair.json");
 const TICK_MS: u64 = 30_000; // CRDS table poll interval
 const FLUSH_EVERY_TICKS: u64 = 1;
 
@@ -68,6 +77,7 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
     let mut out_dir = PathBuf::from("data");
     let mut max_seconds: Option<u64> = None;
+    let mut keypair_path = PathBuf::from(DEFAULT_KEYPAIR);
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -78,6 +88,10 @@ fn main() {
             "--seconds" => {
                 i += 1;
                 max_seconds = Some(args[i].parse().expect("--seconds needs a number"));
+            }
+            "--keypair" => {
+                i += 1;
+                keypair_path = PathBuf::from(&args[i]);
             }
             other => {
                 eprintln!("unknown arg: {other}");
@@ -111,7 +125,31 @@ fn main() {
     }
     eprintln!("shred_version: {shred_version}");
 
-    let keypair = Keypair::new();
+    // Persistent identity (docs/ETHICS.md): load the file if it exists, else
+    // mint one once and keep it. A read error on an existing file is fatal
+    // rather than silently minting a second identity.
+    let keypair = if keypair_path.exists() {
+        match read_keypair_file(&keypair_path) {
+            Ok(kp) => {
+                eprintln!("identity: loaded {}", keypair_path.display());
+                kp
+            }
+            Err(e) => {
+                eprintln!("identity: cannot read {}: {e}", keypair_path.display());
+                std::process::exit(1);
+            }
+        }
+    } else {
+        let kp = Keypair::new();
+        if let Err(e) = write_keypair_file(&kp, &keypair_path) {
+            eprintln!("identity: cannot write {}: {e}", keypair_path.display());
+            std::process::exit(1);
+        }
+        eprintln!("identity: generated {}", keypair_path.display());
+        kp
+    };
+    eprintln!("identity pubkey: {}", keypair.pubkey());
+
     let exit = Arc::new(AtomicBool::new(false));
     let (gossip_service, _ip_echo, spy_ref) = make_node(
         keypair,

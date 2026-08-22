@@ -13,7 +13,7 @@ First snapshot numbers:
 - version census top: 4.2.1 (1,237), 4.2.0 (1,057), 4.2.0-rc.1 (502), 4.1.2
   (249), long tail to 2.3.8 (191) and 0.1105.40200 (100)
 
-Cross-validation anchors: SIGMETRICS 2025 ~3,693 (API view), PoC 2026-08-18
+Cross-validation anchors: SIGMETRICS 2026 ~3,693 (API view), PoC 2026-08-18
 ~3,830, this baseline 3,798. View disagreement is itself a result.
 
 ## Wire-level spy attempt (finding, not failure)
