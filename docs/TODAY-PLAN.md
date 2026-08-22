@@ -15,7 +15,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: done (verified by Hermes: recomputed fraction 0.984203 exactly)
 
 ## T2 client mix census
-- Model: claude-sonnet-4-6, effort high
+- Model: claude-sonnet-5, effort high
 - Task: classify gossip ContactInfo client/version fields into Agave, Jito,
   Firedancer families per window; histogram plus shares.
 - Deliverable: docs/analysis/client-mix-2026-08-22.md
@@ -24,7 +24,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: done (verified by Hermes: counts match JSONL, em-dash clean)
 
 ## T3 RPC versus wire gap, both windows
-- Model: claude-sonnet-4-6, effort high
+- Model: claude-sonnet-5, effort high
 - Task: diff rpcview cluster-nodes snapshots against the two spy windows;
   produce the delta table and note whether the gap is stable or drifting.
 - Deliverable: docs/analysis/rpc-wire-gap-2026-08-22.md
@@ -33,7 +33,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: pending
 
 ## T4 AS and cloud concentration
-- Model: claude-sonnet-4-6, effort high
+- Model: claude-sonnet-5, effort high
 - Task: check for an offline ASN/cloud enrichment source (GeoLite2 ASN db,
   existing cache in repo); if available, enrich unique gossip IPs and report
   stake share by top AS and cloud. If no source is available, do not
@@ -54,7 +54,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: pending
 
 ## T6 AFTER_PAPER self-test completion
-- Model: claude-sonnet-4-6, effort high
+- Model: claude-sonnet-5, effort high
 - Task: read docs/AFTER_PAPER.md; complete any unanswered self-test items
   from the IMC 2018 reading, and the one permanent note if missing.
 - Deliverable: updated docs/AFTER_PAPER.md
@@ -72,7 +72,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: pending
 
 ## T8 OSU CS 5XX candidates
-- Model: claude-sonnet-4-6, effort high, WebSearch allowed
+- Model: claude-sonnet-5, effort high, WebSearch allowed
 - Task: research OSU CS 5XX graduate courses relevant to networking,
   distributed systems, and security; list candidates for winter (one course)
   and Spring 2027 (two courses). Cite catalog sources.
@@ -91,7 +91,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Status: pending
 
 ## T10 third data point fold-in
-- Model: claude-sonnet-4-6, effort high
+- Model: claude-sonnet-5, effort high
 - Task: only if data/2026-08-22/ contains a spy capture newer than 21:30 UTC:
   fold it into the digest and note the three-window trend. If not yet
   present, mark waiting and do nothing else.
