@@ -18,7 +18,7 @@ Done when: the 1-pager is sendable (question, motivation, related work, method, 
 
 Pull-only, identified, tiny occupancy. Repeat ContactInfo harvest on a timer. Measure who appears, who leaves, how advertised IPs change.
 
-Prerequisite: the UDP spy is **not** `solana gossip` (that is RPC). It is the Agave `solana-gossip` binary, which is not on PATH as of 2026-08-19, or an in-process pull-only listener in this repo. Install or implement before claiming a gossip-plane dataset.
+Status (as of 2026-08-22): hand-built spy is running. Captures logged for 2026-08-21 and 2026-08-22. RPC-view crawl runs every 6 h via Hermes cron with 2 h watchdog. Prerequisite satisfied: the UDP spy speaks the current (4.2.x) protocol and is harvesting ContactInfo into the longitudinal series.
 
 Done when: more than one dated gossip view exists and churn can be stated as a number (not a vibe). Ethics bind in [ETHICS.md](ETHICS.md) still holds.
 

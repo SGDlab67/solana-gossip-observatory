@@ -44,7 +44,7 @@ itself a result.
 |---|---|---|
 | View | RPC (`getClusterNodes`, `getVoteAccounts`) | gossip wire (CRDS table) |
 | Source | an endpoint someone else curates | the mesh itself |
-| Status | working since 2026-08-19 | first wire capture 2026-08-21, 3,543 ContactInfo in 120 s |
+| Status | working since 2026-08-19 | longitudinal series from 2026-08-21, up to 3,543 ContactInfo per 120 s window |
 | Cost | free, runs anywhere | must speak the current protocol |
 
 `rpcview` is the backstop series: it costs nothing and must not stop, because
@@ -54,17 +54,18 @@ one-off captures that also grab `solana gossip` output.
 
 ## Current status
 
-**Wire view (2026-08-21 local, UTC window 2026-08-22T00:27:05Z to 00:29:05Z):**
-the gate is closed. The hand-built pull-only spy joined the mainnet mesh and
-recorded **3,543 distinct identity pubkeys with a ContactInfo in a single 120 s
-window** (CRDS table 1,540 -> 2,642 -> 3,321 -> 3,543 across four 30 s ticks;
-3,452 advertising a TVU socket at the final tick). The RPC capture two minutes
-later saw 3,712 nodes / 3,685 unique gossip IPs, so 120 s of passive listening
-recovered ~95% of the curated view. The 4.6% gap is the object of study, not
-noise. Full numbers in [docs/ONE-PAGER.md](docs/ONE-PAGER.md). The spy runs
-under one persistent, identifiable pubkey (see [Ethics](docs/ETHICS.md)); the
-recurring crawl that turns this into a churn series runs every 6 h via Hermes
-cron (watchdog every 2 h, weekly digest Mondays).
+**Wire view (longitudinal churn, 2026-08-21 through 2026-08-22):** the
+hand-built pull-only spy has logged multiple captures: one from 2026-08-21T03:45:33Z,
+and two from 2026-08-22 at 00:27:05Z and 21:30:16Z. Each 120 s window records
+distinct identity pubkeys with ContactInfo from the CRDS table. The baseline
+2026-08-22T00:27:05Z capture recorded 3,543 distinct identities (CRDS table
+1,540 -> 2,642 -> 3,321 -> 3,543 across four 30 s ticks; 3,452 advertising a
+TVU socket at the final tick). The RPC capture from the same window saw 3,712
+nodes / 3,685 unique gossip IPs, so 120 s of passive listening recovered ~95%
+of the curated view. The gap is the object of study. Full numbers in
+[docs/ONE-PAGER.md](docs/ONE-PAGER.md). The spy runs under one persistent,
+identifiable pubkey (see [Ethics](docs/ETHICS.md)); the recurring crawl runs
+every 6 h via Hermes cron (watchdog every 2 h, weekly digest Mondays).
 
 **RPC view (2026-08-19T21:26:51Z, live mainnet):** 3,771 cluster nodes, 3,743
 unique gossip IPs, 290 exposing RPC, 688 current validators (8 delinquent).
