@@ -103,10 +103,11 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: updated snapshots/digests/2026-W34.md or a trend note
 - Verify: the new capture's counts appear in the note
 - Commit: analysis: fold third capture into weekly digest
-- Status: in_progress (2026-08-23 loop: condition satisfied by capture in
-  data/2026-08-23/ (crawl date rolled over), spy-2026-08-23-033217.jsonl
-  start 03:32:47Z, 3250 records, 3187 validators; W2 213016 stays the
-  reference, do not recount)
+- Status: done (verified by Hermes 2026-08-23: digest 2026-W34.md updated
+  with W3 spy-2026-08-23-033217.jsonl, 03:32:47Z, 3250 peers, 3187
+  validators; three-window trend table, gaps 21h03m11s and 6h02m31s,
+  deltas match raw summaries; W3 dip noted as capture-window variance not
+  network shrink; em-dash clean; commit 26e39cd)
 
 ## End condition
 When all tasks are done, blocked, or waiting: report plan complete with a
