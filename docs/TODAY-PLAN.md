@@ -62,7 +62,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: updated docs/AFTER_PAPER.md
 - Verify: no empty answer stubs remain
 - Commit: docs: complete AFTER_PAPER self-test
-- Status: pending
+- Status: done (verified by Hermes 2026-08-22: Q1/Q2 answered with message types and identity leak, Turbine/Gulf Stream correctly excluded, permanent note grounded in repo docs with real numbers; no stubs, em-dash clean; commit b9a50b1)
 
 ## T7 digest dry-run
 - Model: claude-haiku-4-5, effort high
