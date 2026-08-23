@@ -81,7 +81,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/CS5XX-CANDIDATES.md
 - Verify: every listed course has a source URL
 - Commit: docs: CS 5XX candidate courses for winter and spring
-- Status: in_progress (dispatched by Hermes 2026-08-22, manual)
+- Status: done (verified by Hermes 2026-08-22: CS 576/577/578 confirmed verbatim against live OSU catalog, incl. ECE crosslists; no DISTRIBUTED hits so the unconfirmed-distributed-systems note is honest; em-dash clean; commit ce4b537)
 
 ## T9 repo docs refresh
 - Model: claude-haiku-4-5, effort high
@@ -90,7 +90,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: updated README.md and docs/ROADMAP.md
 - Verify: no stale claims about scheduling remain
 - Commit: docs: refresh to post-fix crawl reality
-- Status: pending
+- Status: in_progress (dispatched by Hermes 2026-08-22, manual)
 
 ## T10 third data point fold-in
 - Model: claude-sonnet-5, effort high
