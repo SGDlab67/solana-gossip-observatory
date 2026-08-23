@@ -71,7 +71,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: a dry-run digest file plus notes
 - Verify: script exits 0 and writes output
 - Commit: chore: verify digest pipeline dry run
-- Status: pending
+- Status: done (verified by Hermes 2026-08-22: reran scripts/digest.py, exit 0, output snapshots/digests/2026-W34.md 2967 bytes; health ATTENTION with 18.23h gap flagged; agent made no commit because deliverable is gitignored, plan commit is the record)
 
 ## T8 OSU CS 5XX candidates
 - Model: claude-sonnet-5, effort high, WebSearch allowed
@@ -81,7 +81,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: docs/CS5XX-CANDIDATES.md
 - Verify: every listed course has a source URL
 - Commit: docs: CS 5XX candidate courses for winter and spring
-- Status: pending
+- Status: in_progress (dispatched by Hermes 2026-08-22, manual)
 
 ## T9 repo docs refresh
 - Model: claude-haiku-4-5, effort high
