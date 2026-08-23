@@ -103,7 +103,10 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: updated snapshots/digests/2026-W34.md or a trend note
 - Verify: the new capture's counts appear in the note
 - Commit: analysis: fold third capture into weekly digest
-- Status: waiting
+- Status: in_progress (2026-08-23 loop: condition satisfied by capture in
+  data/2026-08-23/ (crawl date rolled over), spy-2026-08-23-033217.jsonl
+  start 03:32:47Z, 3250 records, 3187 validators; W2 213016 stays the
+  reference, do not recount)
 
 ## End condition
 When all tasks are done, blocked, or waiting: report plan complete with a
