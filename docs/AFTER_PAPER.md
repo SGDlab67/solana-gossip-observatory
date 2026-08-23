@@ -29,6 +29,22 @@ Write one note that you would still want in six months:
 
 Keep it short. This is the note the 1-pager draws from.
 
+**Permanent note (2026-08-22).**
+
+Protocol layering as a measurement surface: what you can observe without being a validator is exactly what the protocol already broadcasts to anyone who listens. On Solana that is gossip `ContactInfo` (pull-only CRDS listen, no vote, no stake required) and public RPC (`getClusterNodes`, `getVoteAccounts`). NodeFinder's insight was that Ethereum's RLPx/DEVp2p discovery layer is a similarly public surface; the Solana equivalent is the gossip plane, not Turbine (data plane, downstream of leader selection) or Gulf Stream (transaction forwarding, requires being in the forwarding path). A measurement surface is defined by what a passive, unprivileged listener sees, not by what the protocol is "for."
+
+P2P network health metrics NodeFinder used, and the Solana analogs actually instrumented in this repo:
+
+| NodeFinder metric | Solana analog | Where measured here |
+| --- | --- | --- |
+| Peer count | Distinct identity pubkeys with `ContactInfo` on the wire, per tick | `spy/` (3,543 pubkeys, 120 s window, 2026-08-22) |
+| Client mix (Geth/Parity) | Agave / Firedancer / Jito version census | `docs/analysis/client-mix-2026-08-22.md` |
+| Churn | Node arrival/departure rate, identity persistence across repeated captures | Planned, not yet run (docs/ROADMAP.md Phase 2) |
+| AS/geography concentration | IP to AS/cloud enrichment of gossip IPs | Planned, not yet run (docs/ROADMAP.md Phase 4) |
+| Unreachable advertised addresses | Advertised `ContactInfo` sockets with no confirmed reachability, or RPC/wire view gap (RPC 3,712 nodes vs wire 3,543 pubkeys, same-day) | `docs/analysis/rpc-wire-gap-2026-08-22.md` |
+
+The RPC/wire gap is the one metric this repo treats as a first-class finding rather than measurement noise: it is the Solana-specific version of NodeFinder's observation that the discovered overlay and the consensus-relevant set disagree.
+
 ### 3. 1-pager skeleton for Dr. Ma (due 2026-08-31)
 
 Fill this outline the same day. One page. Results can be thin; the question and method cannot.
@@ -89,16 +105,30 @@ Use this table in the 1-pager related-work paragraph so the mapping is explicit,
 
 ## Self-test answers (fill after reading)
 
-**Date finished paper:**
+**Date finished paper:** 2026-08-21 (per docs/ONE-PAGER.md date; paper reading preceded the first 1-pager draft).
 
 **Q1. What would a Solana NodeFinder measure?**
 
-_(paste here)_
+Same three sub-claims the 1-pager (docs/ONE-PAGER.md, section 1) already commits to:
+
+1. Speed and accuracy of identity-to-IP linking: how much of the validator set resolves to an advertised IP, as a function of how long a pull-only observer (`spy/`) listens. Message type: gossip `ContactInfo` (identity pubkey, gossip socket, TPU/TVU sockets, shred version, client version), harvested via CRDS pull and cross-checked against `getClusterNodes`.
+2. Stake-weighted leak: what fraction of activated stake sits behind an IP the protocol already advertises, by joining gossip identities to `getVoteAccounts`.
+3. AS and cloud concentration: how far those advertised IPs collapse into a small number of autonomous systems or hosting providers.
+
+The identity that leaks is the pubkey to IP binding itself, published to anyone who listens, not extracted through any new exploit.
 
 **Q2. Which Solana layers analogize to RLPx / DEVp2p / eth subprotocol?**
 
-_(paste here)_
+Per the methodology mapping (this file, section "Methodology mapping", and docs/ONE-PAGER.md section 3):
 
-**Primary operational mode chosen (RPC census / gossip spy / custom crawler):**
+| NodeFinder (Ethereum) | Solana analog |
+| --- | --- |
+| RLPx discovery scan | Gossip CRDS pull (`spy/`), `getClusterNodes` (`rpcview/`) |
+| DEVp2p HELLO harvest | Gossip `ContactInfo` |
+| Ethereum STATUS (network / genesis) | Shred version |
+| Client / version census (Geth / Parity) | Agave / Firedancer / Jito version census |
+| Geography / AS + latency | IP to AS/cloud enrichment of gossip IPs |
 
-_(paste here)_
+Turbine and Gulf Stream are not part of this mapping: they are data-plane and transaction-forwarding paths downstream of gossip, not discovery or handshake layers, so they have no NodeFinder analog. QUIC is Solana's transport for TPU traffic, comparable to RLPx's transport role but not to RLPx's discovery function, which is the piece NodeFinder measured. Gossip is the layer that actually corresponds to what NodeFinder harvested.
+
+**Primary operational mode chosen (RPC census / gossip spy / custom crawler):** Both, deliberately redundant, per docs/ONE-PAGER.md section 4: `rpcview/` (RPC census, operational since 2026-08-19) is the backstop series since gossip has no archive; `spy/` (custom pull-only CRDS listener, first successful wire capture 2026-08-22) is the closer NodeFinder analog. Per this file's section 4, RPC census is the same-day default for the 1-pager; the spy is stronger evidence layered on top, not a same-day requirement.
