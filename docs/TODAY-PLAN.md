@@ -90,7 +90,7 @@ blocked, waiting. The loop agent runs tasks in id order, one per iteration.
 - Deliverable: updated README.md and docs/ROADMAP.md
 - Verify: no stale claims about scheduling remain
 - Commit: docs: refresh to post-fix crawl reality
-- Status: in_progress (dispatched by Hermes 2026-08-22, manual)
+- Status: done (verified by Hermes 2026-08-22: README/ROADMAP schedule claims match actual cron config (6h crawl, 2h watchdog, Mon digest); spy-data dates accurate; em-dash clean; commit 1823e5b)
 
 ## T10 third data point fold-in
 - Model: claude-sonnet-5, effort high
