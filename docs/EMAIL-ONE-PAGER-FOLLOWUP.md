@@ -6,7 +6,7 @@
 
 Dear Dr. Ma,
 
-Attached is a one-pager on the Solana Gossip Observatory (S-NodeFinder), the gossip-layer measurement work I have been building. The short version: a pull-only CRDS listener recovered roughly 95 percent of the cluster's node count from a single 120-second window, and the gap between what the wire shows and what RPC advertises looks like a finding rather than noise. The series now runs unattended on a six-hour schedule.
+Attached is a one-pager on the Solana Gossip Observatory (S-NodeFinder), the gossip-layer measurement work I have been building. It asks how anonymous Solana's validators really are at the gossip layer. The short version: a pull-only CRDS listener recovered roughly 95 percent of the cluster's node count from a single 120-second window, and the gap between what the wire shows and what RPC advertises looks like a finding rather than noise. The series now runs unattended on a six-hour schedule.
 
 Two things I would value from you.
 
