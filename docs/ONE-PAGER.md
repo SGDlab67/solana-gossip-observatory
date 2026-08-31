@@ -23,8 +23,8 @@ Measured on mainnet (single 120 s pull-only gossip window, 2026-08-22T00:27:05Z 
 
 | Observation | Value |
 | --- | ---: |
-| Distinct identity pubkeys with a `ContactInfo` observed on the wire | **3,543** |
-| of which advertised a TVU (shred-receiving) socket, final tick | **3,452** |
+| Distinct identity pubkeys in the CRDS table at the final tick | 3,543 |
+| of which advertised a TVU (shred-receiving) socket | 3,452 |
 | CRDS peer-table size at each of four 30 s ticks | **1,540 -> 2,642 -> 3,321 -> 3,543** |
 | RPC view, captured 00:30:52Z: cluster nodes | **3,712** |
 | RPC view, captured 00:30:52Z: unique gossip IPs | **3,685** |
@@ -35,15 +35,7 @@ Two minutes of passive listening recovered ~95% of the node count the cluster's 
 
 ## 3. Related work
 
-**Kim, Ma, Murali, Mason, Miller, Bailey. "Measuring Ethereum Network Peers." IMC 2018.** ([doi:10.1145/3278532.3278542](https://doi.org/10.1145/3278532.3278542)) NodeFinder harvested Ethereum's overlay via RLPx discovery plus DEVp2p HELLO/STATUS, and reported peer counts, client mix, and AS/geography concentration. It also showed that the discovered overlay is far larger and messier than the consensus-relevant set. What does *not* port directly: Ethereum's Kademlia-style discovery lets a crawler walk the ID space, whereas Solana's CRDS is a push/pull anti-entropy table, so coverage is a function of *dwell time and peer selection*, not of scan breadth. The mapping we use:
-
-| NodeFinder (Ethereum) | S-NodeFinder (Solana) |
-| --- | --- |
-| RLPx discovery scan | Gossip CRDS pull (`spy/`), `getClusterNodes` (`rpcview/`) |
-| DEVp2p HELLO harvest | Gossip `ContactInfo` |
-| STATUS (network / genesis) | Shred version |
-| Geth / Parity client census | Agave / Firedancer / Jito version census |
-| Geography and AS | IP to AS/cloud enrichment of gossip IPs |
+**Kim, Ma, Murali, Mason, Miller, Bailey. "Measuring Ethereum Network Peers." IMC 2018.** ([doi:10.1145/3278532.3278542](https://doi.org/10.1145/3278532.3278542)) NodeFinder harvested Ethereum's overlay via RLPx discovery plus DEVp2p HELLO/STATUS, and reported peer counts, client mix, and AS/geography concentration. It also showed that the discovered overlay is far larger and messier than the consensus-relevant set. What does *not* port directly: Ethereum's Kademlia-style discovery lets a crawler walk the ID space, whereas Solana's CRDS is a push/pull anti-entropy table, so coverage is a function of *dwell time and peer selection*, not of scan breadth.
 
 **Kiffer, Heimbach, Trautwein, Vonlanthen, Gasser. "Multiple Sides of 36 Coins: Measuring Peer-to-Peer Infrastructure Across Cryptocurrencies." ACM SIGMETRICS 2026.** (arXiv:2511.15388) Reports a Solana node population of ~3,693 from an API-level vantage point, which falls between our wire view (3,543) and our same-window RPC view (3,712), and gives an independently collected anchor for the order of magnitude. Its contribution is breadth across chains at an API vantage; ours is depth at *one* chain's wire vantage, with the API/wire delta as the object of study rather than an implementation detail.
 
@@ -73,7 +65,7 @@ This is a measurement, not a paper promise.
 
 ## 6. One ask
 
-**Is a sustained pull-only gossip spy in scope before our next meeting, and at what duty cycle?** Concretely: continuous or near-continuous capture (versus the current bounded 120 s windows) is what turns this from a snapshot into a churn dataset, and it is the one methodological step where I want your ethics judgment rather than my own before I run it. If yes, I would also value a view on whether a second vantage point (a differently-located spy) is worth the added footprint for separating "short window" from "partial table" in the RPC/wire gap.
+One thing I would like your judgment on: should the spy run continuously, and at what duty cycle? Continuous or near-continuous capture is what turns this from a snapshot into a real churn dataset, and it is the one step where I would rather lean on your ethics judgment than my own. If sustained capture is in scope, I would also appreciate your take on whether a second, differently located spy is worth the added footprint, to separate a short window from a partial table in the RPC/wire gap.
 
 ---
 
