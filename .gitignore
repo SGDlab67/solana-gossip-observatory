@@ -15,3 +15,6 @@ keypair.json
 # Secrets / OS
 .env
 .DS_Store
+
+# Spy run logs: local diagnostics, not findings
+logs/

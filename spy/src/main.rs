@@ -36,6 +36,11 @@ const ENTRYPOINTS: &[&str] = &[
 const DEFAULT_KEYPAIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/keypair.json");
 const TICK_MS: u64 = 30_000; // CRDS table poll interval
 const FLUSH_EVERY_TICKS: u64 = 1;
+// Backstop for a run the host suspends over and over: abandon the window
+// rather than let a spy outlive its schedule slot and overlap the next fire.
+// Two live nodes under one identity make the gossip layer process::exit the
+// older one (ContactInfo::check_duplicate), which would lose a whole run.
+const MAX_WALL_SECS: u64 = 4 * 3600;
 
 fn now_unix() -> u64 {
     SystemTime::now()
@@ -181,10 +186,35 @@ fn main() {
     let mut seen: HashSet<String> = HashSet::new();
     let mut ticks: u64 = 0;
     let mut total_new: u64 = 0;
+    let mut last_tick_at = start;
 
+    // --seconds is a sample budget, not a wall-clock deadline. This host is a
+    // laptop that dark-wakes, fires the run, and suspends again seconds later,
+    // so one 30s thread::sleep can return minutes or hours later. The old
+    // condition (now_unix() - start < max_seconds) spent the entire budget
+    // inside that single sleep and cut the run to 1-3 ticks; counting samples
+    // instead lets a suspended run still finish its window after wake. It also
+    // drops the wrapping subtraction, which ended the run on any backward
+    // clock step.
+    let target_ticks = max_seconds.map(|s| (s.saturating_mul(1000) / TICK_MS).max(1));
     eprintln!("writing records to {}", rec_path.display());
-    while max_seconds.map_or(true, |s| now_unix() - start < s) {
+    while target_ticks.map_or(true, |t| ticks < t) {
         std::thread::sleep(Duration::from_millis(TICK_MS));
+
+        let woke_at = now_unix();
+        let slept = woke_at.saturating_sub(last_tick_at);
+        if slept > 2 * TICK_MS / 1000 {
+            eprintln!(
+                "tick {}: host was suspended, slept {slept}s instead of {}s",
+                ticks + 1,
+                TICK_MS / 1000
+            );
+        }
+        let wall_age = woke_at.saturating_sub(start);
+        if wall_age > MAX_WALL_SECS {
+            eprintln!("abandoning window: {wall_age}s of wall clock for {ticks} ticks");
+            break;
+        }
 
         let peers = spy_ref.all_peers();
         let validator_set: HashSet<String> = spy_ref
@@ -229,6 +259,7 @@ fn main() {
 
         total_new += new_this_tick;
         ticks += 1;
+        last_tick_at = tick_at;
         if ticks % FLUSH_EVERY_TICKS == 0 {
             let _ = rec_writer.flush();
             let _ = sum_writer.flush();
